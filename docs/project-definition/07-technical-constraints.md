@@ -3,7 +3,7 @@
 ## Constraints (mandatory)
 1. **MERN is mandatory**: MongoDB, Express.js, React, Node.js.
 2. **MongoDB is mandatory** and must be used as a first-class database (schema validation, indexes, compound/unique constraints, transactions or equivalent atomic strategy). No substitution by PostgreSQL, MySQL, Firebase, Supabase, etc.
-3. TypeScript is preferred/expected for new code (final scope of TS adoption: Stage 01).
+3. TypeScript is preferred/expected for new code. Final scope of TS adoption was delegated to Stage 01 and is now **decided** — see ADR-001 / OD-03 (owner approved Option A): production application and package code is TypeScript-only in strict mode; JavaScript is not used for production modules (tooling/config file formats are exempt).
 4. The project must remain understandable; no unnecessary architectural complexity or dependencies.
 5. Security is not traded for speed; no intentional demo-only security holes.
 6. AI agents cannot override requirements (see 08).

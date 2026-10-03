@@ -34,7 +34,7 @@ Legend: ✔ allowed · O own resources only · S scoped to owned facilities · �
 - USER: cannot see other users' bookings, vehicles, payments, or profiles; cannot set price, owner, status, or role.
 - OPERATOR: scope = facilities where `owner == operator`. Cannot view platform-wide data, other operators' facilities, or user PII beyond what is required to serve a booking at their facility (minimum necessary: DP-11).
 - ADMIN: can see but not forge payment outcomes; cannot alter historical prices of completed bookings, cannot alter audit logs, cannot read password hashes or provider secrets. Admin accounts are created/promoted only through a controlled server-side process (DP-03).
-- Operator onboarding requires approval by an ADMIN (proposed; DP-03).
+- Operator onboarding requires approval by an ADMIN (resolved; DP-03).
 
 ## Authorization test requirement
 Every protected route has tests for: unauthenticated, wrong role, right role wrong owner, right role right owner.

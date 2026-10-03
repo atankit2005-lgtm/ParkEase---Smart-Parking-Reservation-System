@@ -7,7 +7,7 @@
 Drivers lose time and money circling for parking and cannot reliably know whether a space exists, what it costs, or whether it will still be free on arrival. Parking operators lack a single tool to publish real inventory, price it, and see occupancy and revenue. Existing small-scale systems typically fake availability with a single counter and trust the client, which produces double bookings, price tampering, and unauthorized access to other users' data.
 
 ## Vision
-Let a driver find a parking space near a destination, see real availability and the authoritative price, reserve a specific space (or zone-level capacity), pay through a verified payment flow, and receive a confirmed booking — while giving operators and administrators accurate, auditable control. All business-critical truth (availability, price, ownership, payment state) lives on the server.
+Let a driver find a parking space near a destination, see real availability and the authoritative price, reserve a specific physical parking slot (DP-06 resolved: slot-only booking), pay through a verified payment flow, and receive a confirmed booking — while giving operators and administrators accurate, auditable control. All business-critical truth (availability, price, ownership, payment state) lives on the server.
 
 ## Target users
 | Persona | Needs |
