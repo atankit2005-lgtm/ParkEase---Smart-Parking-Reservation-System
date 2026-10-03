@@ -40,6 +40,7 @@ Requirement IDs are stable. Reference them in commits, tests, and PRs. "Shall" =
 - FR-PAY-04 Payment state machine and booking state shall remain consistent (booking confirmed iff payment verified).
 - FR-PAY-05 Refunds shall follow cancellation policy and be recorded and reconcilable.
 - FR-PAY-06 Users see only their own payment history; raw card data is never stored or logged.
+- FR-PAY-07 Zero-cost/payment-exempt bookings shall follow the policy defined by DP-17; they remain server-authoritative, auditable, and consistent with the booking/payment state model.
 
 ### Notifications (NOT)
 - FR-NOT-01 In-app notifications for booking, payment, cancellation, and refund events.
