@@ -13,7 +13,7 @@ Search → filter → view facility → inspect availability for a window → in
 - Failures: invalid window/geo parameters → validation error; no results → empty state.
 
 ## W3 Booking
-Select facility → select/assign valid slot → validate availability and time rules → compute authoritative price → create pending booking atomically (hold) → initiate payment → provider-verified confirmation → confirm booking → notify user.
+Select facility → select/assign valid slot → validate availability and time rules → compute authoritative price → create pending booking atomically (hold) → initiate payment (or apply the DP-17 zero-cost/payment-exempt path) → provider-verified confirmation where payment is required → confirm booking → notify user.
 - Controls: FR-BKG-01..05, 08, 09; FR-PAY-01..04; owner from auth identity only; atomic reservation (transaction or equivalent conditional write, chosen in Stage 01/03).
 - Failures: slot taken concurrently → conflict response, no partial state; payment fails/never arrives → hold expires, capacity released; duplicate webhook → no double confirmation; booking confirmed only if payment verified.
 
