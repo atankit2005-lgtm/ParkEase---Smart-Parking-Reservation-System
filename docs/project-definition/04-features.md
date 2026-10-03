@@ -25,4 +25,4 @@ Audit logging (FR-ADM-03; foundations in Stage 04, used from Stage 05), structur
 - Domain entities (User, Vehicle, ParkingLot, ParkingZone, ParkingSlot, Booking, Payment, Refund, Review, Notification, Favorite, AuditLog, OperatingHours, PricingRule, RecommendationProfile) are candidates. `Role` is an attribute of User; `ParkingOperator` may be a User role plus an ownership relation rather than a separate collection. Final model is a Stage 01/03 decision.
 
 ## Open scope questions
-Whether slot-level selection is mandatory or zone-capacity booking suffices for some facilities (DP-06); recurring/monthly passes and dynamic pricing are not in scope unless approved.
+None for booking granularity: DP-06 is **resolved** — slot-only booking of physical parking slots (see `07-technical-constraints.md` and `docs/architecture/02-domain-model.md`); zone-capacity booking is out of scope. Recurring/monthly passes and dynamic pricing are not in scope unless approved.

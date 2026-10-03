@@ -18,6 +18,19 @@ Use a workspace-capable package manager selected in Stage 02. Keep deployment bo
 
 TypeScript strict mode is proposed for new application code. JavaScript is not planned for new production modules.
 
+## TypeScript scope — OD-03: OWNER DECISION REQUIRED
+
+`07-technical-constraints.md` (constraint 3) makes TypeScript "preferred/expected" and assigns the final adoption scope to Stage 01. Because this is a ground-up rebuild, the scope must be stated unambiguously, and the project owner must approve it before this ADR can move from Proposed to Accepted.
+
+| Option | Rule | Notes |
+|---|---|---|
+| **A** | **TypeScript-only** for all production application and package code (`apps/api`, `apps/web`, `packages/*`), strict mode; JavaScript permitted only in tooling/config files that cannot be TypeScript (e.g., certain build config loaders), each justified | Single language discipline; contracts, DTOs, and domain rules all statically typed; strict mode catches whole defect classes before runtime |
+| **B** | JavaScript permitted for production modules alongside TypeScript | Lower barrier for occasional scripts; in practice produces mixed-typing seams, `any` leakage across boundaries, and weaker guarantees in exactly the security-critical code paths |
+
+**Agent recommendation (not a decision): Option A — TypeScript-only, strict mode, for production application/package code.** Since nothing legacy constrains this rebuild, Option B's flexibility has little value here and dilutes the typing of shared contracts.
+
+Until OD-03 is resolved, the "TypeScript strict mode" wording above remains a **proposal**, and Stage 02 tooling setup is blocked from finalizing lint/compile rules that assume either option.
+
 ## Consequences
 Positive:
 - One versioned source for frontend/backend contracts.

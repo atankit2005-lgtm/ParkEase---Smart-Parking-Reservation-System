@@ -27,6 +27,8 @@ A feature is done only when ALL hold:
 A stage passes only when: requirements satisfied; implementation complete; tests exist and pass; security reviewed; architecture consistent; documentation complete; known issues resolved or documented; independent review done; designated branch contains the work; the stage checklist passes. On failure: Fix → Test → Audit → Verify, repeat. Only then merge to `main`.
 
 ## Stage 00 gate checklist
+> **Historical Stage 00 snapshot.** The statuses below were recorded during Stage 00 and mention decision points that were open *at that time* (e.g., DP-03, DP-06, DP-09, DP-11, DP-17). Stage 00 was subsequently approved and merged into `main` (merge commit `ce51655`). The authoritative current decision-point statuses are in `07-technical-constraints.md`; do not treat this checklist as current state.
+
 Status reflects an honest evaluation of content by the authoring agent. "Pending" items require independent/human action. Nothing here is a self-certified pass.
 
 | Item | Status | Basis |

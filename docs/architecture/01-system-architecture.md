@@ -114,6 +114,12 @@ A protected request is processed as:
 
 Single-document state changes use atomic MongoDB operations with predicates where possible. Multi-document invariants use MongoDB transactions where required. Booking, cancellation, payment confirmation, and refund bookkeeping must have explicit idempotency behavior.
 
+The concrete strategies are normative in:
+
+- **ADR-003** — booking concurrency: slot-document serialization gate, transaction-scoped overlap check, conditional lifecycle transitions.
+- **ADR-011** — booking/payment cross-system state consistency: invariants, idempotent verification, reconciliation.
+- **03-api-conventions.md §Idempotency** — client retry safety for consequential mutations.
+
 ## External integrations
 
 Payment, maps, email, and future AI providers are accessed behind application-level interfaces. Provider failures cannot directly mutate authoritative booking state without server validation.

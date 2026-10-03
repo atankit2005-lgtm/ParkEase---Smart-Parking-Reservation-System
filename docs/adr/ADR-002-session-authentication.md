@@ -31,4 +31,4 @@ No authentication token is stored in localStorage or sessionStorage.
 This requires session persistence and CSRF-aware frontend/API behavior. It avoids treating a long-lived self-contained client token as the sole source of revocation state.
 
 ## Deferred implementation
-Cookie attributes, session TTLs, password hashing parameters, CSRF mechanism, session-store schema, and rate-limit values are implementation decisions for Stages 04–05 and must be documented there.
+Cookie attributes, session TTLs, password hashing parameters, CSRF mechanism, session-store schema, and rate-limit values are implementation decisions for Stages 04–05 and must be documented there. The architecture-level session lifecycle, rotation/revocation semantics, and layered CSRF strategy are defined in **ADR-010 (Session Lifecycle and CSRF Architecture)**, which expands this ADR.
