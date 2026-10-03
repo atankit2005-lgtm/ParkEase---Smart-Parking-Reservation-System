@@ -35,3 +35,4 @@ Expected: Mongoose, Vite, Tailwind CSS, GitHub Actions, Docker, testing framewor
 | DP-14 | Time-zone model (store UTC; facility-local zone for hours and display) and supported regions/currencies | Stage 01 |
 | DP-15 | Hosting/deployment targets; MongoDB Atlas tier (transactions require replica set) | Stage 01/02 |
 | DP-16 | Repository license | Owner, Stage 16 |
+| DP-17 | Zero-cost/payment-exempt bookings: whether a booking with an authoritative zero amount bypasses external payment initiation while remaining server-authoritative, auditable, and consistent with booking/payment state rules | Owner, Stage 01/09/10 |
