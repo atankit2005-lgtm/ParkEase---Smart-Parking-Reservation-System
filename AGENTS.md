@@ -12,7 +12,7 @@ A MERN-stack (MongoDB, Express.js, React, Node.js) smart parking reservation pla
 3. Inspect existing code before changing it.
 
 ## Mandatory technology
-MongoDB, Express.js, React, Node.js. TypeScript preferred. MongoDB may not be replaced. Do not add dependencies without a stated reason.
+MongoDB, Express.js, React, Node.js. Production application and package code is TypeScript in strict mode (ADR-001 / OD-03, owner approved); JavaScript is not used for production modules. MongoDB may not be replaced. Do not add dependencies without a stated reason.
 
 ## Architecture principles
 Layered backend (routes → controllers → services → data access), business logic in services, schema validation at boundaries, one authorization policy layer, explicit response shaping, config via validated environment variables. Availability is modeled from facility/zone/slot/booking data, never a client-writable counter.

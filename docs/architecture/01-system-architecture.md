@@ -29,7 +29,7 @@ ParkEase/
 └── package.json
 ```
 
-A monorepo is proposed for shared contracts and synchronized frontend/backend changes. Final package tooling belongs to Stage 02.
+A monorepo is the decided repository structure (ADR-001 / DP-01) for shared contracts and synchronized frontend/backend changes. Final package tooling belongs to Stage 02.
 
 ## Backend logical layers
 

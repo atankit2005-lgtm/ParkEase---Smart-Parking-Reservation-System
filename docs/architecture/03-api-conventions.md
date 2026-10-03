@@ -114,6 +114,8 @@ Never return raw Mongoose documents. DTOs/serializers explicitly select fields a
 
 API timestamps are ISO 8601 values representing UTC instants unless an endpoint explicitly accepts a facility-local date/time as a business input. Facility timezone is identified by IANA timezone name.
 
+Where an endpoint accepts a facility-local date/time, DST edge cases follow ADR-004 / OD-02 (owner approved Option B): an **ambiguous** local time (DST fallback) must be accompanied by an explicit UTC offset, which the server validates against the facility's IANA zone (accepted only if the zone observes it at that local time) and never defaults silently; a **nonexistent** local time (DST spring-forward) is rejected. The offset is a disambiguator only — it can never override the facility zone or shift a stored UTC instant. For the initial India / Asia-Kolkata market (no DST) these cases do not arise.
+
 ## API documentation
 
 The final OpenAPI/API reference is produced as implementation stabilizes. Stage 01 establishes conventions, not a complete generated specification.

@@ -1,13 +1,14 @@
 # ADR-001 — Monorepo and TypeScript
 
-- **Status:** Proposed — owner review required
+- **Status:** Accepted — OD-03 (TypeScript scope) owner approved 2026-10-03; monorepo/layout is the DP-01 Stage 01 decision recorded here
 - **Date:** 2026-10-03
+- **Decision points:** DP-01 (monorepo vs separate packages, folder layout) — decided here per Stage 00 delegation; OD-03 (TypeScript scope) — owner approved Option A (2026-10-03)
 
 ## Context
-MERN is mandatory. TypeScript is preferred/expected, and Stage 01 must determine its adoption scope. The frontend and backend share transport contracts and benefit from synchronized type/schema changes.
+MERN is mandatory. TypeScript is preferred/expected, and the Stage 00 constraints delegated the final adoption scope to Stage 01; this ADR resolves that scope (OD-03, owner approved below). The frontend and backend share transport contracts and benefit from synchronized type/schema changes.
 
 ## Decision
-Propose a single repository with:
+This ADR records the DP-01 Stage 01 decision — a single repository with:
 
 - `apps/api`: Node.js + Express + TypeScript.
 - `apps/web`: React + TypeScript.
@@ -16,20 +17,22 @@ Propose a single repository with:
 
 Use a workspace-capable package manager selected in Stage 02. Keep deployment boundaries independent even though source is monorepo-based.
 
-TypeScript strict mode is proposed for new application code. JavaScript is not planned for new production modules.
+TypeScript strict mode is **required** for all production application and package code (see OD-03 below). JavaScript is not used for production modules.
 
-## TypeScript scope — OD-03: OWNER DECISION REQUIRED
+## TypeScript scope — OD-03: RESOLVED / OWNER APPROVED (Option A)
 
-`07-technical-constraints.md` (constraint 3) makes TypeScript "preferred/expected" and assigns the final adoption scope to Stage 01. Because this is a ground-up rebuild, the scope must be stated unambiguously, and the project owner must approve it before this ADR can move from Proposed to Accepted.
+The owner approved **Option A** on 2026-10-03. The following is a binding architectural decision.
 
-| Option | Rule | Notes |
-|---|---|---|
-| **A** | **TypeScript-only** for all production application and package code (`apps/api`, `apps/web`, `packages/*`), strict mode; JavaScript permitted only in tooling/config files that cannot be TypeScript (e.g., certain build config loaders), each justified | Single language discipline; contracts, DTOs, and domain rules all statically typed; strict mode catches whole defect classes before runtime |
-| **B** | JavaScript permitted for production modules alongside TypeScript | Lower barrier for occasional scripts; in practice produces mixed-typing seams, `any` leakage across boundaries, and weaker guarantees in exactly the security-critical code paths |
+- **Production application code must be TypeScript** — `apps/api` (Node.js + Express) and `apps/web` (React).
+- **Production package code must be TypeScript** — `packages/*` (e.g., `contracts`, `config`).
+- **TypeScript strict mode applies** to all production application and package code.
+- **JavaScript must not be used as production application/package source.** Changing this requires a future explicit owner decision.
+- **Tooling/configuration files may use whatever format their respective tools require** (e.g., `.js`/`.cjs`/`.mjs`/`.json` config loaders, build scripts, workspace tooling). This decision governs production application/package code only — it does not constrain tooling/config file format.
 
-**Agent recommendation (not a decision): Option A — TypeScript-only, strict mode, for production application/package code.** Since nothing legacy constrains this rebuild, Option B's flexibility has little value here and dilutes the typing of shared contracts.
+Because the scope is now fixed, Stage 02 tooling (compiler, linter, formatter, CI) must enforce TypeScript strict mode for all production application/package code and must not provide a path to ship production JavaScript modules.
 
-Until OD-03 is resolved, the "TypeScript strict mode" wording above remains a **proposal**, and Stage 02 tooling setup is blocked from finalizing lint/compile rules that assume either option.
+### TypeScript alternative rejected (Option B)
+Option B (JavaScript permitted for production modules alongside TypeScript) was considered and rejected by the owner: it introduces mixed-typing seams and `any` leakage across boundaries, weakening exactly the security-critical code paths. The authoring agent's recommendation (Option A) matches the owner decision.
 
 ## Consequences
 Positive:
@@ -41,7 +44,7 @@ Trade-offs:
 - Workspace/tooling complexity.
 - Shared packages must avoid leaking server-only code into the browser.
 
-## Alternatives considered
+## Alternatives considered (repository structure)
 Separate client/server repositories would reduce workspace complexity but duplicate cross-boundary contract coordination.
 
 ## Implementation boundary

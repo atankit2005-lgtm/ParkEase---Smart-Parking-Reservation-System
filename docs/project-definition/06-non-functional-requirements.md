@@ -1,6 +1,6 @@
 # 06 — Non-Functional Requirements
 
-Targets below are initial and testable; numeric thresholds are proposals to be confirmed in Stage 01 (DP-12) and recorded as ADRs. They are not claims about current system behavior.
+Targets below are initial and testable; numeric thresholds remain open per DP-12 (deferred, requiring an owner-approved ADR before any implementation/testing claim depends on them) and are recorded here as written commitments, not fixed values. They are not claims about current system behavior.
 
 | ID | Category | Requirement | Verification |
 |---|---|---|---|
