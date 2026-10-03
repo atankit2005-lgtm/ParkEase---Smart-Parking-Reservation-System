@@ -36,7 +36,7 @@ Status reflects an honest evaluation of content by the authoring agent. "Pending
 | Target users defined | Done | 01, 03 |
 | Goals defined | Done | 01 |
 | Success criteria defined | Done | 01 (SC-1..6) |
-| Functional requirements defined | Done (decision points open) | 02 |
+| Functional requirements defined | Done (decision points open, including DP-17) | 02, 07 |
 | Non-functional requirements defined | Done (numeric targets open, DP-12) | 06 |
 | Roles defined | Done | 03 |
 | Permissions defined | Done (DP-03, DP-09, DP-11 open) | 03 |
@@ -53,10 +53,10 @@ Status reflects an honest evaluation of content by the authoring agent. "Pending
 | Git strategy defined | Done | 11 |
 | Documentation strategy defined | Done | 13 |
 | Roadmap defined | Done | 14 |
-| Internal consistency audit completed | Performed by authoring agent (grep-based + read-through); independent review pending | see final report |
-| Requirements reviewed | Pending independent review | — |
-| Security review completed | Pending independent review (authoring-agent self-review only) | — |
-| Documentation reviewed | Pending independent review | — |
+| Internal consistency audit completed | Independent review completed; targeted corrections applied for DP-17 and related payment/workflow consistency | 02, 05, 07 |
+| Requirements reviewed | Independent review completed; targeted correction applied for zero-cost/payment-exempt bookings | 02, 07 |
+| Security review completed | Independent documentation-level security consistency review completed; implementation security review remains stage-specific | 02, 08, 09 |
+| Documentation reviewed | Independent review completed; targeted consistency corrections applied | 01–14, AGENTS.md, CONTRIBUTING.md |
 | Stage branch verified | See final report (git status) | — |
 | Stage 00 documentation complete | Authored; completeness contingent on review | — |
 | Stage 00 ready for independent review | Yes, with open decision points listed in 07 | — |
