@@ -61,4 +61,13 @@ Status reflects an honest evaluation of content by the authoring agent. "Pending
 | Stage 00 documentation complete | Authored; completeness contingent on review | — |
 | Stage 00 ready for independent review | Yes, with open decision points listed in 07 | — |
 
-Stage 00 is **not passed** until the independent review is done and the owner resolves or explicitly defers each DP item needed for Stage 01.
+Stage 00 owner decision status:
+
+- Independent documentation review: completed.
+- Owner decisions needed for Stage 01: resolved as recorded in 07-technical-constraints.md.
+- Explicitly deferred items remain tracked there with their required future stage.
+- DP-13 is intentionally policy-deferred to an owner-approved ADR before Stage 09, while Stage 01 may design the policy as configurable.
+- DP-11 is resolved at the minimum-necessary-PII principle level; exact field-level visibility remains a Stage 01 authorization ADR.
+- No Stage 02+ implementation is authorized by these decisions.
+
+**Gate status:** Stage 00 is ready for owner approval and merge review.
