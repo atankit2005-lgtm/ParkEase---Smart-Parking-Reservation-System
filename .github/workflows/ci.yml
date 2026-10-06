@@ -1,0 +1,117 @@
+name: CI
+
+on:
+  push:
+    branches: ["stage/**"]
+  pull_request:
+    branches: ["main", "stage/**"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Format, lint, typecheck, tests, builds
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install and verify pinned npm
+        run: |
+          npm install --global npm@11.19.0
+          test "$(node --version)" = "v$(cat .nvmrc)"
+          test "$(npm --version)" = "11.19.0"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Run unit tests
+        run: npm run test:unit
+
+      - name: Run integration tests
+        run: npm run test:integration
+
+      - name: Build all workspaces
+        run: npm run build --workspaces --if-present
+
+  mongodb-transactions:
+    name: MongoDB replica set transaction verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install and verify pinned npm
+        run: |
+          npm install --global npm@11.19.0
+          test "$(node --version)" = "v$(cat .nvmrc)"
+          test "$(npm --version)" = "11.19.0"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Start MongoDB replica set
+        run: npm run infra:start
+
+      - name: Run transaction verification
+        run: npm run test:db
+        env:
+          MONGO_URL: mongodb://127.0.0.1:27017/?directConnection=true&replicaSet=rs0
+
+      - name: Stop MongoDB replica set
+        if: always()
+        run: npm run infra:stop
+
+  e2e:
+    name: Playwright E2E scaffold
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install and verify pinned npm
+        run: |
+          npm install --global npm@11.19.0
+          test "$(node --version)" = "v$(cat .nvmrc)"
+          test "$(npm --version)" = "11.19.0"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        run: npm run test:e2e

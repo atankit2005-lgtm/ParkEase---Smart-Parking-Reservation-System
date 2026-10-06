@@ -1,7 +1,7 @@
 # Stage 02 — Infrastructure Plan
 
 - **Stage:** 02 — Repository & Dev Infrastructure
-- **Status:** PLAN — implementation not authorized
+- **Status:** IMPLEMENTATION IN PROGRESS — exit gate not validated
 - **Branch:** `stage/02-infrastructure`
 - **Baseline:** `a378ff8ec928ef1a2d910391c6fe18fbd25c09eb`
 - **Baseline title:** `docs: merge Stage 01 architecture`
@@ -21,9 +21,13 @@ Stage 02 follows the existing mandatory workflow:
 
 `PLAN → IMPLEMENT → TEST → AUDIT → FIX → VERIFY → DOCUMENT → COMMIT → PUSH → STAGE GATE`
 
-This document is the Stage 02 planning artifact only. It is not authorization to implement.
+This document is the approved Stage 02 plan. Implementation is authorized and underway; this
+status does not certify that the exit gate has passed.
 
 ## 2. Verified starting state
+
+The following bullets are the historical snapshot taken while authoring this plan.
+Current local verification is recorded in §25.
 
 Remote repository verification performed during planning:
 
@@ -166,20 +170,20 @@ Stage 01 records the following technology direction:
 
 | Area | Stage 02 plan |
 |---|---|
-| Runtime | Node.js LTS, exact supported version pinned during implementation |
-| Language | TypeScript, strict mode |
-| Backend | Express.js |
-| Frontend | React + Vite |
-| Database runtime | MongoDB; local replica set through Docker |
+| Runtime | Node.js 24.21.0, pinned in `.nvmrc` |
+| Language | TypeScript 6.0.3, strict mode |
+| Backend | Express.js 5.2.1 |
+| Frontend | React 19.3.0 + Vite 8.3.2 |
+| Database runtime | MongoDB 8.3.11, digest-pinned; local replica set through Docker |
 | ODM | Mongoose dependency may be deferred until Stage 03 unless needed solely for an infrastructure verification |
-| Boundary validation | Zod or equivalent; final dependency selection during implementation |
+| Boundary validation | Zod 4.6.5 for the shared health contract |
 | Unit/API testing | Vitest + Supertest |
-| Browser E2E | Select and document one tool in Stage 02; no domain E2E yet |
+| Browser E2E | Playwright 1.63.0; scaffold only |
 | Linting | ESLint |
 | Formatting | Prettier |
 | CI | GitHub Actions |
 | Local services | Docker / Docker Compose-compatible development configuration |
-| Package manager | Select one workspace-capable manager during implementation and pin it through repository metadata + lockfile |
+| Package manager | npm workspaces; npm 11.19.0 in `packageManager`; lockfile v3 |
 
 ### Dependency policy
 
@@ -386,7 +390,7 @@ Stage 02 does not claim that the application's full security baseline is complet
 
 ## 16. Implementation sequence
 
-Implementation, after owner approval of this plan, should proceed in this order:
+Implementation proceeds in this order:
 
 1. Re-verify local branch, baseline, working tree, and upstream.
 2. Create the workspace/package-manager root configuration and lockfile.
@@ -552,15 +556,20 @@ This decision must be recorded in an ADR before infrastructure implementation ma
 
 ### OD-02B — Stage 02 browser E2E tool
 
-Stage 01 delegates browser E2E tool selection to Stage 02. This is an implementation/tooling decision, not a product decision. The plan proposes selecting one tool based on the project's Windows/CI compatibility, reproducibility, TypeScript support, and maintenance footprint. The final choice must be documented.
+**Selected:** Playwright 1.63.0, documented in `02-local-development.md`. It runs a
+scaffold-only Chromium test; no business E2E flow is included.
 
 ### OD-02C — Package manager
 
-Stage 01 delegates workspace/package-manager selection to Stage 02. The implementation must select exactly one workspace-capable manager, pin it, commit its lockfile, and use the same manager in CI and developer documentation.
+**Selected:** npm workspaces with npm 11.19.0 declared in `packageManager`; CI installs
+and verifies that exact version. The lockfile is v3. The implementation and lockfile
+remain uncommitted until the stage is reviewed.
 
 ### OD-02D — Exact tool versions
 
-Stage 02 must pin compatible versions of Node.js, TypeScript, workspace tooling, test tooling, lint/format tooling, and frontend tooling. Versions are not asserted by this plan because they must be verified against the package ecosystem at implementation time.
+**Selected and verified:** Node.js 24.21.0 and exact direct dependency versions are
+pinned in `.nvmrc` and package manifests. The dependency tree was inspected after
+`npm ci`; see §25 for the audit result.
 
 ### Deferred decisions explicitly NOT required now
 
@@ -656,6 +665,55 @@ These are planned outputs, not claims that the files currently exist.
 
 ## 24. Gate status
 
-**PLAN COMPLETE — IMPLEMENTATION NOT STARTED**
+**IMPLEMENTATION IN PROGRESS — EXIT GATE NOT VALIDATED**
 
-This plan does not authorize implementation. Owner review is required before Stage 02 implementation begins.
+The implementation and validation evidence must be completed before the stage gate can pass.
+
+## 25. Local verification evidence (2026-10-06)
+
+The following is local evidence for this working tree, not a GitHub Actions result.
+
+- **Repository:** branch `stage/02-infrastructure`; `HEAD` is
+  `1ba658f3e30f425d595a8a2ddc9a06c43086b8f6`, tracking
+  `origin/stage/02-infrastructure`. The `HEAD` baseline is the expected
+  `a378ff8ec928ef1a2d910391c6fe18fbd25c09eb`. At the time of this recorded
+  verification, the Stage 02 implementation remained untracked/uncommitted and no
+  files were staged.
+- **Docker:** Docker Engine 29.8.1 and Compose 5.5.1 are available, and
+  `docker compose -f docker-compose.yml config --quiet` succeeds.
+- **MongoDB:** the digest-pinned local MongoDB 8.3.11 container reported healthy.
+  `hello()` identified `rs0` and `isWritablePrimary: true`; `rs.status()` reported
+  one healthy `PRIMARY`. The published host port was `127.0.0.1:27017` only. The
+  documented local connection string was used for transaction tests.
+- **Transactions:** `npm run test:db` passed twice before restart and twice after
+  restart (including in the full root validation sequence); each run executed all
+  three tests, including multi-document commit and rollback assertions.
+- **Restart:** `npm run infra:stop` removed the Compose container while retaining
+  local volume state. `npm run infra:start` reinitialized idempotently, waited for a
+  writable primary, and the transaction tests passed again.
+- **Toolchain/install:** Node.js 24.21.0 and npm 11.19.0 matched `.nvmrc` and
+  `packageManager`. `npm ci` succeeded from the lockfile (346 packages installed);
+  npm reported one unapproved `esbuild@0.28.2` install script, but installation,
+  build, and E2E execution succeeded without approving it.
+- **Validation after clean install:** `npm run format:check`, `npm run lint`,
+  `npm run typecheck`, `npm run test:unit`, `npm run test:integration`,
+  `npm run test:db`, `npm run test:e2e`, and
+  `npm run build --workspaces --if-present` all passed.
+- **Dependency/security audit:** `npm audit` reported 0 vulnerabilities. Direct
+  dependencies are exactly pinned; the dependency tree was inspected.
+- **Scope/secrets/artifacts:** no production JavaScript source or Stage 03+ business
+  implementation was found. Secret-pattern scans found no credential indicators;
+  `.env.example` contains local placeholders only. Generated `node_modules`, build
+  output, and test results remain ignored and unstaged.
+- **CI:** **CI execution not independently verified.** No GitHub Actions run was
+  available for this uncommitted working-tree state. Workflow configuration was
+  inspected for clean checkout, pinned Node/npm, `npm ci`, quality checks, Compose
+  replica-set transaction tests, E2E, and builds; this does not establish CI success.
+- **Branch protection:** active repository ruleset `Protect main` (ID `24593398`)
+  targets `refs/heads/main`, requires a PR and one approving review, blocks force
+  pushes and deletion, and has no bypass actors. No required status checks are
+  configured because no CI check run has established the exact check names.
+- **Still required:** actual CI evidence for the committed changes and independent
+  human review. DP-15 remains deferred as documented above.
+
+The stage remains **NOT PASSED** until the exit-gate conditions in §19 are satisfied.
